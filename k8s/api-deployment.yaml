@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-scheduler-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job-scheduler-api
+  template:
+    metadata:
+      labels:
+        app: job-scheduler-api
+    spec:
+      containers:
+        - name: api
+          image: job-scheduler-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+          - name: HTTP_PROXY
+            value: ""
+          - name: HTTPS_PROXY
+            value: ""
+          - name: http_proxy
+            value: ""
+          - name: https_proxy
+            value: ""
+          - name: NO_PROXY
+            value: "kubernetes.default.svc,kubernetes.default.svc.cluster.local,10.96.0.0/12,10.0.0.0/8,127.0.0.1,localhost"
